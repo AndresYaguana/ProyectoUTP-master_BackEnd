@@ -9,6 +9,9 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.sql.Date;
+
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -18,8 +21,18 @@ public class Usuario {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idUsuario;;
+    Integer idUsuario;
     String email;
     String password;
+    String nombres;
+    String apellidos;
+    Integer tipoUsuario;
+    String urlFoto;
+    String universidad;
+    Boolean habilitado;
+    String creadoPor;
+    Date fechaCreacion;
+    String modificadoPor;
+    Date fechaModificacion;
 }
 
