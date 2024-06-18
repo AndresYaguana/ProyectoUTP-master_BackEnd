@@ -62,24 +62,29 @@ public class UsuariosControlador {
         }
     }
 
-    }
-
-
-  /*  @PutMapping("/usuarios/{id}")
-    public ResponseEntity<Producto> actualizarProducto(
+    @PutMapping("/usuarios/{id}")
+    public ResponseEntity<Usuario> actualizarUsuario(
             @PathVariable int id,
-            @RequestBody Producto productoRecibido){
-        Producto producto = this.productoServicio.buscarProductoPorId(id);
-        if (producto == null)
+            @RequestBody Usuario usuarioRecibido){
+        Usuario usuario = this.usuarioServicio.buscarUsuarioPorId(id);
+        if (usuario == null)
             throw new RecursoNoEncontradoExcepcion("No se encontro el id: "+ id);
-        producto.setDescripcion(productoRecibido.getDescripcion());
-        producto.setPrecio(productoRecibido.getPrecio());
-        producto.setExistencia(productoRecibido.getExistencia());
-        this.productoServicio.guardarProducto(producto);
-        return ResponseEntity.ok(producto);
+        usuario.setEmail(usuarioRecibido.getEmail());
+        usuario.setPassword(usuarioRecibido.getPassword());
+        usuario.setNombres(usuarioRecibido.getNombres());
+        usuario.setTipoUsuario(usuarioRecibido.getTipoUsuario());
+        usuario.setUrlFoto(usuarioRecibido.getUrlFoto());
+        usuario.setUniversidad(usuarioRecibido.getUniversidad());
+        usuario.setHabilitado(usuarioRecibido.getHabilitado());
+        usuario.setModificadoPor(usuarioRecibido.getModificadoPor());
+        usuario.setFechaModificacion(usuarioRecibido.getFechaModificacion());
+        this.usuarioServicio.guardarUsuario(usuario);
+        return ResponseEntity.ok(usuario);
     }
 
-    @DeleteMapping("/productos/{id}")
+    }
+
+    /*@DeleteMapping("/productos/{id}")
     public ResponseEntity<Map<String, Boolean>> eliminarProducto(@PathVariable int id){
         Producto producto = productoServicio.buscarProductoPorId(id);
         if (producto == null)

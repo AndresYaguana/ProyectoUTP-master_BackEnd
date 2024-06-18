@@ -22,6 +22,8 @@ public class Curso {
     Integer idCurso;
     String nombre;
     String ruta;
+    String urlImage;
+    String descripcion;
     Boolean habilitado;
     String creadoPor;
     Date fechaCreacion;

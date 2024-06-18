@@ -49,7 +49,23 @@ public class CursoControlador {
         }
     }
 
-
+    @PutMapping("/cursos/{id}")
+    public ResponseEntity<Curso> actualizarCurso(
+            @PathVariable int id,
+            @RequestBody Curso cursoRecibido){
+        Curso curso = this.cursoServicio.buscarCursoPorId(id);
+        if (curso == null)
+            throw new RecursoNoEncontradoExcepcion("No se encontro el id: "+ id);
+        curso.setNombre(cursoRecibido.getNombre());
+        curso.setRuta(cursoRecibido.getRuta());
+        curso.setUrlImage(cursoRecibido.getUrlImage());
+        curso.setDescripcion(cursoRecibido.getDescripcion());
+        curso.setHabilitado(cursoRecibido.getHabilitado());
+        curso.setModificadoPor(cursoRecibido.getModificadoPor());
+        curso.setFechaModificacion(cursoRecibido.getFechaModificacion());
+        this.cursoServicio.guardarCurso(curso);
+        return ResponseEntity.ok(curso);
+    }
 
 }
 
