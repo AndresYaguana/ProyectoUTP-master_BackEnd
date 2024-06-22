@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @RestController
 //localhost:8080/inventario_app
@@ -82,16 +84,16 @@ public class UsuariosControlador {
         return ResponseEntity.ok(usuario);
     }
 
-    }
-
-    /*@DeleteMapping("/productos/{id}")
-    public ResponseEntity<Map<String, Boolean>> eliminarProducto(@PathVariable int id){
-        Producto producto = productoServicio.buscarProductoPorId(id);
-        if (producto == null)
+    @DeleteMapping("/usuarios/{id}")
+    public ResponseEntity<Map<String, Boolean>> eliminarUsuario(@PathVariable int id){
+        Usuario usuario = usuarioServicio.buscarUsuarioPorId(id);
+        if (usuario == null)
             throw new RecursoNoEncontradoExcepcion("No se encontro el id: "+ id);
-        this.productoServicio.eliminarProductoPorId(producto.getIdProducto());
+        this.usuarioServicio.eliminarUsuarioPorId(usuario.getIdUsuario());
         Map<String,Boolean> respuesta = new HashMap<>();
-        respuesta.put("Eliminado",Boolean.TRUE);
+        respuesta.put("Usuario Eliminado Exitosamente",Boolean.TRUE);
         return ResponseEntity.ok(respuesta);
 
-    }*/
+    }
+
+}
