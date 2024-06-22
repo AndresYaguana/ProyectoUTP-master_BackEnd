@@ -1,6 +1,9 @@
 package gm.inventarios.modelo;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -12,22 +15,16 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Curso {
+public class Categoria {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idCurso;
+    Integer idCategoria;
     String nombre;
     String ruta;
-    String urlImage;
-    String descripcion;
     Boolean habilitado;
     String creadoPor;
     Date fechaCreacion;
     String modificadoPor;
     Date fechaModificacion;
 
-    // Relación con Categoria
-    @ManyToOne
-    @JoinColumn(name = "idCategoria")
-    Categoria categoria;
 }
