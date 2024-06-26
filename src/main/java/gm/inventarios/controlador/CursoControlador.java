@@ -1,10 +1,8 @@
 package gm.inventarios.controlador;
 
 import gm.inventarios.excepcion.RecursoNoEncontradoExcepcion;
-import gm.inventarios.modelo.Categoria;
 import gm.inventarios.modelo.Curso;
 import gm.inventarios.modelo.Usuario;
-import gm.inventarios.servicio.CategoriaServicio;
 import gm.inventarios.servicio.CursoServicio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,9 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 //localhost:8080/inventario_app
@@ -26,14 +22,8 @@ public class CursoControlador {
     private static final Logger logger =
             LoggerFactory.getLogger(CursoControlador.class);
 
-    private CursoServicio cursoServicio;
-    private CategoriaServicio categoriaServicio;
-
     @Autowired
-    public CursoControlador(CursoServicio cursoServicio, CategoriaServicio categoriaServicio) {
-        this.cursoServicio = cursoServicio;
-        this.categoriaServicio = categoriaServicio;
-    }
+    private CursoServicio cursoServicio;
 
     //http://localhost:8080/ProyectoUTP-master/cursos
     @GetMapping("/cursos")
@@ -46,10 +36,6 @@ public class CursoControlador {
     @PostMapping("/cursos")
     public Curso agregarCurso (@RequestBody Curso curso){
         logger.info("Curso a agregar: " + curso);
-        if (curso.getCategoria() != null && curso.getCategoria().getIdCategoria() != null) {
-            Categoria categoria = categoriaServicio.buscarCategoriaPorId(curso.getCategoria().getIdCategoria());
-            curso.setCategoria(categoria);
-        }
         return this.cursoServicio.guardarCurso(curso);
     }
 
@@ -81,25 +67,6 @@ public class CursoControlador {
         return ResponseEntity.ok(curso);
     }
 
-    @DeleteMapping("/cursos/{id}")
-    public ResponseEntity<Map<String, Boolean>> eliminarCurso(@PathVariable int id){
-        Curso curso = cursoServicio.buscarCursoPorId(id);
-        if (curso == null)
-            throw new RecursoNoEncontradoExcepcion("No se encontro el id: "+ id);
-        this.cursoServicio.eliminarCursoPorId(curso.getIdCurso());
-        Map<String,Boolean> respuesta = new HashMap<>();
-        respuesta.put("Curso Eliminado Exitosamente",Boolean.TRUE);
-        return ResponseEntity.ok(respuesta);
-
-    }
-
-    @GetMapping("/cursos/categoria/{id}")
-    public List<Curso> obtenerCursosPorCategoria(@PathVariable int id) {
-        List<Curso> cursos = this.cursoServicio.obtenerCursosPorCategoria(id);
-        logger.info("Cursos obtenidos por categoría:");
-        cursos.forEach((curso -> logger.info(curso.toString())));
-        return cursos;
-    }
 }
 
 
