@@ -33,6 +33,4 @@ public class CategoriaServicio implements ICategoriaServicio{
         this.categoriaRepository.deleteById(idCategoria);
     }
 
-
-
 }

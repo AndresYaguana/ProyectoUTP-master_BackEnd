@@ -1,5 +1,6 @@
 package gm.inventarios.servicio;
 
+import gm.inventarios.excepcion.RecursoNoEncontradoExcepcion;
 import gm.inventarios.modelo.Usuario;
 import gm.inventarios.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,6 +52,16 @@ public class UsuarioServicio implements IUsuarioServicio {
         }
     }
 
+    @Override
+    public List<String> obtenerPermisosUsuario(Integer idUsuario) {
+        Usuario usuario = usuarioRepository.findById(idUsuario)
+                .orElseThrow(() -> new RecursoNoEncontradoExcepcion("Usuario no encontrado con ID: " + idUsuario));
 
+        if (usuario.getTipousuario() != null) {
+            return usuario.getTipousuario().getPermisos();
+        } else {
+            throw new RecursoNoEncontradoExcepcion("Tipo de usuario no encontrado para el usuario con ID: " + idUsuario);
+        }
+    }
 }
 

@@ -1,11 +1,15 @@
 package gm.inventarios.modelo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,5 +33,26 @@ public class Curso {
     // Relación con Categoria
     @ManyToOne
     @JoinColumn(name = "idCategoria")
-    Categoria categoria;
+    @JsonIgnoreProperties("cursos")
+    private Categoria categoria;
+
+    // Relación con Seccion
+    @OneToMany(mappedBy = "curso")
+    @JsonIgnore
+    List<SeccionCurso> secciones;
+
+    @Override
+    public String toString() {
+        return "Curso{" +
+                "idCurso=" + idCurso +
+                ", nombre='" + nombre + '\'' +
+                ", ruta='" + ruta + '\'' +
+                ", habilitado=" + habilitado +
+                ", creadoPor='" + creadoPor + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                ", modificadoPor='" + modificadoPor + '\'' +
+                ", fechaModificacion=" + fechaModificacion +
+                ", urlImage='" + urlImage + '\'' +
+                '}';
+    }
 }

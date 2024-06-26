@@ -1,39 +1,33 @@
 package gm.inventarios.modelo;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import java.sql.Date;
 import java.util.List;
-
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Usuario {
-
+public class TipoUsuario {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idUsuario;
-    String email;
-    String password;
-    String nombres;
-    String apellidos;
-    String urlFoto;
-    String universidad;
+    Integer idTipousuario;
+    String nombre;
     Boolean habilitado;
     String creadoPor;
     Date fechaCreacion;
     String modificadoPor;
     Date fechaModificacion;
-    // Relación con TipoUsuario
-    @ManyToOne
-    @JoinColumn(name = "idTipousuario")
-    TipoUsuario tipousuario;
-}
+    List<String> permisos;
 
+
+
+}

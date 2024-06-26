@@ -1,7 +1,9 @@
 package gm.inventarios.controlador;
 
 import gm.inventarios.excepcion.RecursoNoEncontradoExcepcion;
+import gm.inventarios.modelo.TipoUsuario;
 import gm.inventarios.modelo.Usuario;
+import gm.inventarios.servicio.TipoUsuarioServicio;
 import gm.inventarios.servicio.UsuarioServicio;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,7 +17,6 @@ import java.util.List;
 import java.util.Map;
 
 @RestController
-//localhost:8080/inventario_app
 @RequestMapping("ProyectoUTP-master")
 @CrossOrigin(value = "http://localhost:4200")
 public class UsuariosControlador {
@@ -23,22 +24,30 @@ public class UsuariosControlador {
     private static final Logger logger =
             LoggerFactory.getLogger(UsuariosControlador.class);
 
-    @Autowired
     private UsuarioServicio usuarioServicio;
+    private TipoUsuarioServicio tipoUsuarioServicio;
 
-    //http://localhost:8080/ProyectoUTP-master/usuarios
+    @Autowired
+    public UsuariosControlador(UsuarioServicio usuarioServicio, TipoUsuarioServicio tipoUsuarioServicio) {
+        this.usuarioServicio = usuarioServicio;
+        this.tipoUsuarioServicio = tipoUsuarioServicio;
+    }
+
     @GetMapping("/usuarios")
     public List<Usuario> obtenerUsuarios() {
         List<Usuario> usuarios = this.usuarioServicio.ListarUsuario();
         logger.info("Usuarios obtenidos:");
         usuarios.forEach((usuario -> logger.info(usuario.toString())));
         return usuarios;
-
     }
 
     @PostMapping("/usuarios")
-    public Usuario agregarProducto(@RequestBody Usuario usuario){
+    public Usuario agregarUsuario(@RequestBody Usuario usuario){
         logger.info("Usuarios a agregar: " + usuario);
+        if (usuario.getTipousuario() != null && usuario.getTipousuario().getIdTipousuario() != null) {
+            TipoUsuario tipoUsuario = tipoUsuarioServicio.buscarTipousuarioPorId(usuario.getTipousuario().getIdTipousuario());
+            usuario.setTipousuario(tipoUsuario);
+        }
         return this.usuarioServicio.guardarUsuario(usuario);
     }
 
@@ -74,7 +83,8 @@ public class UsuariosControlador {
         usuario.setEmail(usuarioRecibido.getEmail());
         usuario.setPassword(usuarioRecibido.getPassword());
         usuario.setNombres(usuarioRecibido.getNombres());
-        usuario.setTipoUsuario(usuarioRecibido.getTipoUsuario());
+        usuario.setApellidos(usuarioRecibido.getApellidos());
+        usuario.setTipousuario(usuarioRecibido.getTipousuario());
         usuario.setUrlFoto(usuarioRecibido.getUrlFoto());
         usuario.setUniversidad(usuarioRecibido.getUniversidad());
         usuario.setHabilitado(usuarioRecibido.getHabilitado());
@@ -93,7 +103,12 @@ public class UsuariosControlador {
         Map<String,Boolean> respuesta = new HashMap<>();
         respuesta.put("Usuario Eliminado Exitosamente",Boolean.TRUE);
         return ResponseEntity.ok(respuesta);
+    }
 
+    @GetMapping("/usuarios/{id}/permisos")
+    public ResponseEntity<List<String>> obtenerPermisosUsuario(@PathVariable("id") Integer idUsuario) {
+        List<String> permisos = usuarioServicio.obtenerPermisosUsuario(idUsuario);
+        return ResponseEntity.ok(permisos);
     }
 
 }

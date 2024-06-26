@@ -17,4 +17,6 @@ public interface IUsuarioServicio {
 
     public Usuario autenticarUsuario(String email, String password);
 
+    public List<String>obtenerPermisosUsuario(Integer idUsuario);
+
 }

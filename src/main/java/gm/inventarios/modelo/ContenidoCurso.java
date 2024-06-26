@@ -1,39 +1,36 @@
 package gm.inventarios.modelo;
-
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import java.sql.Date;
-import java.util.List;
-
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Usuario {
-
+public class ContenidoCurso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idUsuario;
-    String email;
-    String password;
-    String nombres;
-    String apellidos;
-    String urlFoto;
-    String universidad;
+    Integer idContenido;
+    String titulo;
+    String descripcion;
+    String urlVideo;
+    String contenido;
     Boolean habilitado;
     String creadoPor;
     Date fechaCreacion;
     String modificadoPor;
     Date fechaModificacion;
-    // Relación con TipoUsuario
-    @ManyToOne
-    @JoinColumn(name = "idTipousuario")
-    TipoUsuario tipousuario;
-}
 
+    @ManyToOne
+    @JoinColumn(name = "idCurso")
+    Curso curso;
+
+    // Relación con Seccion
+    @ManyToOne
+    @JoinColumn(name = "idSeccion")
+    SeccionCurso seccion;
+}

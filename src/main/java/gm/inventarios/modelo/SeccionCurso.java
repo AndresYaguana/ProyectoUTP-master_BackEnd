@@ -5,35 +5,33 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 import java.sql.Date;
 import java.util.List;
-
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class Usuario {
-
+public class SeccionCurso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    Integer idUsuario;
-    String email;
-    String password;
-    String nombres;
-    String apellidos;
-    String urlFoto;
-    String universidad;
+    Integer idSeccion;
+    String nombre;
     Boolean habilitado;
     String creadoPor;
     Date fechaCreacion;
     String modificadoPor;
     Date fechaModificacion;
-    // Relación con TipoUsuario
-    @ManyToOne
-    @JoinColumn(name = "idTipousuario")
-    TipoUsuario tipousuario;
-}
 
+    // Relación con Curso
+    @ManyToOne
+    @JoinColumn(name = "idCurso")
+    Curso curso;
+
+    // Relación con Contenido
+    @OneToMany(mappedBy = "seccion")
+    List<ContenidoCurso> contenidos;
+
+
+}

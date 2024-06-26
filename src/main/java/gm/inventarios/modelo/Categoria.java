@@ -1,14 +1,14 @@
 package gm.inventarios.modelo;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+
 import java.sql.Date;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,4 +27,21 @@ public class Categoria {
     String modificadoPor;
     Date fechaModificacion;
 
+    @OneToMany(mappedBy = "categoria")
+    @JsonIgnore
+    private List<Curso> cursos;
+
+    @Override
+    public String toString() {
+        return "Categoria{" +
+                "idCategoria=" + idCategoria +
+                ", nombre='" + nombre + '\'' +
+                ", ruta='" + ruta + '\'' +
+                ", habilitado=" + habilitado +
+                ", creadoPor='" + creadoPor + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                ", modificadoPor='" + modificadoPor + '\'' +
+                ", fechaModificacion=" + fechaModificacion +
+                '}';
+    }
 }
