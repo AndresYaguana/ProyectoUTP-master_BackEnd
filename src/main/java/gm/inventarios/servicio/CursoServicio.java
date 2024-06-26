@@ -33,4 +33,9 @@ public class CursoServicio implements ICursoServicio{
         this.cursoRepository.deleteById(idCurso);
     }
 
+    @Override
+    public List<Curso> obtenerCursosPorCategoria(Integer idCategoria) {
+        return cursoRepository.findByCategoriaIdCategoria(idCategoria);
+    }
+
 }

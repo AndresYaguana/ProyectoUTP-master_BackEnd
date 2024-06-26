@@ -14,4 +14,5 @@ public interface ICursoServicio {
 
     public void eliminarCursoPorId(Integer idCurso);
 
+    public List<Curso> obtenerCursosPorCategoria(Integer idCategoria);
 }

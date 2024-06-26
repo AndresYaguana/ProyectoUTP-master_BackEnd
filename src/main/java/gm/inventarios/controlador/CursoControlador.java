@@ -93,6 +93,13 @@ public class CursoControlador {
 
     }
 
+    @GetMapping("/cursos/categoria/{id}")
+    public List<Curso> obtenerCursosPorCategoria(@PathVariable int id) {
+        List<Curso> cursos = this.cursoServicio.obtenerCursosPorCategoria(id);
+        logger.info("Cursos obtenidos por categoría:");
+        cursos.forEach((curso -> logger.info(curso.toString())));
+        return cursos;
+    }
 }
 
 
