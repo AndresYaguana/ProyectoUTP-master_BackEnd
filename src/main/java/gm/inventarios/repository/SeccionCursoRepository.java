@@ -7,4 +7,5 @@ import java.util.List;
 
 public interface SeccionCursoRepository extends JpaRepository<SeccionCurso, Integer>{
     List<SeccionCurso> findByCursoIdCurso(Integer idCurso);
+
 }

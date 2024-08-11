@@ -1,5 +1,8 @@
 package gm.inventarios;
 
+import gm.inventarios.servicio.PasswordMigrationService;
+import jakarta.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
@@ -10,5 +13,11 @@ public class InventariosApplication {
 
 		SpringApplication.run(InventariosApplication.class, args);
 	}
+	/*@Autowired
+	private PasswordMigrationService passwordMigrationService;
 
+	@PostConstruct
+	public void migratePasswords() {
+		passwordMigrationService.migratePasswords();
+	}*/
 }

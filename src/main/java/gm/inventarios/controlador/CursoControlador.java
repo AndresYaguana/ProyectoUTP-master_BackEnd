@@ -46,6 +46,7 @@ public class CursoControlador {
         cursos.forEach((curso -> logger.info(curso.toString())));
         return cursos;
     }
+
     @PostMapping("/cursos")
     public Curso agregarCurso (@RequestBody Curso curso){
         logger.info("Curso a agregar: " + curso);

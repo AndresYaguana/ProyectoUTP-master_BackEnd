@@ -1,4 +1,6 @@
 package gm.inventarios.modelo;
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -11,14 +13,14 @@ import java.sql.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class ContenidoCurso {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Integer idContenido;
     String titulo;
     String descripcion;
-    String urlVideo;
-    String contenido;
+    String urlArchivo;
     Boolean habilitado;
     String creadoPor;
     Date fechaCreacion;
@@ -27,10 +29,11 @@ public class ContenidoCurso {
 
     @ManyToOne
     @JoinColumn(name = "idCurso")
-    Curso curso;
+    private Curso curso;
 
     // Relación con Seccion
     @ManyToOne
     @JoinColumn(name = "idSeccion")
-    SeccionCurso seccion;
+    //@JsonBackReference
+    private SeccionCurso seccion;
 }

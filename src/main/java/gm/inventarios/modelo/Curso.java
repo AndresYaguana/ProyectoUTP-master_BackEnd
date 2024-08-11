@@ -2,6 +2,7 @@ package gm.inventarios.modelo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -37,11 +38,12 @@ public class Curso {
     private Categoria categoria;
 
     // Relación con Seccion
-    @OneToMany(mappedBy = "curso")
-    @JsonIgnore
-    List<SeccionCurso> secciones;
+    @OneToMany(mappedBy = "curso", cascade = CascadeType.ALL)
+    //@JsonManagedReference
+    @JsonIgnoreProperties("curso")
+    private List<SeccionCurso> secciones;
 
-    @Override
+    /*@Override
     public String toString() {
         return "Curso{" +
                 "idCurso=" + idCurso +
@@ -54,5 +56,5 @@ public class Curso {
                 ", fechaModificacion=" + fechaModificacion +
                 ", urlImage='" + urlImage + '\'' +
                 '}';
-    }
+    }*/
 }

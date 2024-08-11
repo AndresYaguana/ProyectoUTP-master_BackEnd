@@ -1,5 +1,7 @@
 package gm.inventarios.modelo;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -27,11 +29,25 @@ public class SeccionCurso {
     // Relación con Curso
     @ManyToOne
     @JoinColumn(name = "idCurso")
-    Curso curso;
+    @JsonIgnoreProperties("seccion")
+    //@JsonBackReference
+    private Curso curso;
 
     // Relación con Contenido
-    @OneToMany(mappedBy = "seccion")
-    List<ContenidoCurso> contenidos;
+    @OneToMany(mappedBy = "seccion", cascade = CascadeType.ALL)
+    @JsonBackReference
+    private List<ContenidoCurso> contenidos;
 
-
+    @Override
+    public String toString() {
+        return "SeccionCurso{" +
+                "idSeccion=" + idSeccion +
+                ", nombre='" + nombre + '\'' +
+                ", habilitado=" + habilitado +
+                ", creadoPor='" + creadoPor + '\'' +
+                ", fechaCreacion=" + fechaCreacion +
+                ", modificadoPor='" + modificadoPor + '\'' +
+                ", fechaModificacion=" + fechaModificacion +
+                '}';
+    }
 }

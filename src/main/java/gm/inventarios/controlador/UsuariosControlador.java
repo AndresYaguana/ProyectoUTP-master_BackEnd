@@ -41,7 +41,7 @@ public class UsuariosControlador {
         return usuarios;
     }
 
-    @PostMapping("/usuarios")
+    /*@PostMapping("/usuarios")
     public Usuario agregarUsuario(@RequestBody Usuario usuario){
         logger.info("Usuarios a agregar: " + usuario);
         if (usuario.getTipousuario() != null && usuario.getTipousuario().getIdTipousuario() != null) {
@@ -49,6 +49,21 @@ public class UsuariosControlador {
             usuario.setTipousuario(tipoUsuario);
         }
         return this.usuarioServicio.guardarUsuario(usuario);
+    }*/
+
+    @PostMapping("/usuarios")
+    public ResponseEntity<Usuario> agregarUsuario(@RequestBody Usuario usuario) {
+        logger.info("Usuario a agregar: " + usuario);
+        if (usuario.getTipousuario() != null && usuario.getTipousuario().getIdTipousuario() != null) {
+            TipoUsuario tipoUsuario = tipoUsuarioServicio.buscarTipousuarioPorId(usuario.getTipousuario().getIdTipousuario());
+            if (tipoUsuario != null) {
+                usuario.setTipousuario(tipoUsuario);
+            } else {
+                return ResponseEntity.badRequest().body(null); // TipoUsuario no encontrado
+            }
+        }
+        Usuario usuarioGuardado = this.usuarioServicio.guardarUsuario(usuario);
+        return ResponseEntity.ok(usuarioGuardado);
     }
 
     @GetMapping("/usuarios/{id}")
@@ -62,7 +77,7 @@ public class UsuariosControlador {
         }
     }
 
-    @PostMapping("/login")
+    /*@PostMapping("/login")
     public ResponseEntity<?> login(@RequestBody Usuario usuario) {
         System.out.println("Received login request for: " + usuario.getEmail());
         Usuario usuarioAutenticado = usuarioServicio.autenticarUsuario(usuario.getEmail(), usuario.getPassword());
@@ -70,6 +85,16 @@ public class UsuariosControlador {
             return ResponseEntity.ok(usuarioAutenticado);
         } else {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Credenciales incorrectas. Por favor, verifica tu correo electrónico y contraseña.");
+        }
+    }*/
+
+    @PostMapping("/login")
+    public ResponseEntity<Usuario> login(@RequestBody Usuario usuario) {
+        Usuario usuarioAutenticado = usuarioServicio.autenticarUsuario(usuario.getEmail(), usuario.getPassword());
+        if (usuarioAutenticado != null) {
+            return ResponseEntity.ok(usuarioAutenticado);
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(null);
         }
     }
 
@@ -112,3 +137,5 @@ public class UsuariosControlador {
     }
 
 }
+
+
